@@ -13,7 +13,7 @@ variable "organization" {
 }
 
 variable "vcs_repo" {
-  description = "GitHub repository identifier (e.g. apitanga/pomo-dev)"
+  description = "GitHub repository identifier (e.g. pomo-studio/pomo-dev)"
   type        = string
 }
 

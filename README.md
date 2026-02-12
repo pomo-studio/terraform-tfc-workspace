@@ -8,10 +8,10 @@ Reusable Terraform module for creating VCS-driven Terraform Cloud workspaces wit
 
 ```hcl
 module "workspace_myapp" {
-  source       = "github.com/apitanga/terraform-tfc-workspace?ref=v1.0.0"
+  source       = "github.com/pomo-studio/terraform-tfc-workspace?ref=v1.0.0"
   name         = "myapp"
   organization = "MyOrg"
-  vcs_repo     = "apitanga/myapp"
+  vcs_repo     = "pomo-studio/myapp"
   github_app_installation_id = "ghain-abc123"
 }
 ```
@@ -20,11 +20,11 @@ module "workspace_myapp" {
 
 ```hcl
 module "workspace_myapp" {
-  source       = "github.com/apitanga/terraform-tfc-workspace?ref=v1.0.0"
+  source       = "github.com/pomo-studio/terraform-tfc-workspace?ref=v1.0.0"
   name         = "myapp"
   organization = "MyOrg"
   description  = "My application infrastructure"
-  vcs_repo     = "apitanga/myapp"
+  vcs_repo     = "pomo-studio/myapp"
   tag_names    = ["website", "serverless-ssr"]
   role_arn     = module.oidc.role_arns["myapp"]
   github_app_installation_id = "ghain-abc123"
@@ -39,7 +39,7 @@ Setting `role_arn` creates a variable set with `TFC_AWS_PROVIDER_AUTH=true` and 
 |----------|------|---------|----------|-------------|
 | `name` | `string` | — | yes | Workspace name |
 | `organization` | `string` | — | yes | TFC organization |
-| `vcs_repo` | `string` | — | yes | GitHub repo (e.g. `apitanga/pomo-dev`) |
+| `vcs_repo` | `string` | — | yes | GitHub repo (e.g. `pomo-studio/pomo-dev`) |
 | `github_app_installation_id` | `string` | — | yes | GitHub App installation ID |
 | `description` | `string` | `""` | no | Workspace description |
 | `branch` | `string` | `"main"` | no | VCS branch |
