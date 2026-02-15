@@ -57,6 +57,21 @@ resource "tfe_workspace_settings" "this" {
 }
 
 # =============================================================================
+# Workspace Variables
+# =============================================================================
+
+resource "tfe_variable" "workspace" {
+  for_each = var.workspace_variables
+
+  workspace_id = tfe_workspace.this.id
+  key          = each.key
+  value        = each.value.value
+  sensitive    = each.value.sensitive
+  category     = each.value.category
+  description  = each.value.description
+}
+
+# =============================================================================
 # Optional OIDC Dynamic Credentials
 # =============================================================================
 

@@ -37,6 +37,36 @@ module "workspace_myapp" {
 
 Setting `role_arn` creates a variable set with `TFC_AWS_PROVIDER_AUTH=true` and `TFC_AWS_RUN_ROLE_ARN` attached to the workspace. When `role_arn` is null (default), no OIDC resources are created.
 
+### With workspace variables
+
+```hcl
+module "workspace_myapp" {
+  source  = "pomo-studio/workspace/tfe"
+  version = "~> 1.1"
+
+  name         = "myapp"
+  organization = "MyOrg"
+  vcs_repo     = "pomo-studio/myapp"
+  role_arn     = module.oidc.role_arns["myapp"]
+  github_app_installation_id = "ghain-abc123"
+
+  workspace_variables = {
+    TFE_TOKEN = {
+      value       = var.tfe_token
+      sensitive   = true
+      category    = "env"
+      description = "TFC team token for cross-workspace state access"
+    }
+    aws_region = {
+      value    = "us-east-1"
+      category = "terraform"
+    }
+  }
+}
+```
+
+`workspace_variables` creates `tfe_variable` resources scoped directly to the workspace (not via a variable set). Sensitive values are marked hidden in the TFC UI and are never output.
+
 ## Variables
 
 | Variable | Type | Default | Required | Description |
@@ -57,6 +87,7 @@ Setting `role_arn` creates a variable set with `TFC_AWS_PROVIDER_AUTH=true` and 
 | `execution_mode` | `string` | `"remote"` | no | Execution mode |
 | `tag_names` | `list(string)` | `[]` | no | Workspace tags |
 | `role_arn` | `string` | `null` | no | IAM role ARN — creates OIDC var set when set |
+| `workspace_variables` | `map(object)` | `{}` | no | Workspace-level variables. Each entry: `value`, `sensitive` (false), `category` ("terraform"\|"env"), `description` ("") |
 
 ## Outputs
 
@@ -73,6 +104,8 @@ Setting `role_arn` creates a variable set with `TFC_AWS_PROVIDER_AUTH=true` and 
 - **`role_arn` as nullable toggle** — one variable serves as both feature flag and value. No separate `enable_oidc` boolean needed.
 - **`lifecycle { ignore_changes = [tag_names] }`** — prevents TFC tag binding drift from causing plan changes.
 - **Core workspace stays inline** — the workspace that manages OIDC infrastructure itself can't use this module (chicken/egg). This module is for site workspaces.
+- **`workspace_variables` are workspace-scoped, not variable-set-scoped** — variables created via this input are attached directly to the workspace via `tfe_variable.workspace_id`, not to a shared variable set. Use this for workspace-specific values; use variable sets for values shared across multiple workspaces.
+- **Sensitive values are never output** — `workspace_variables` values are not exposed in module outputs regardless of the `sensitive` flag.
 
 ## Requirements
 

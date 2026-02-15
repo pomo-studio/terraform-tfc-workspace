@@ -93,3 +93,19 @@ variable "role_arn" {
   type        = string
   default     = null
 }
+
+variable "workspace_variables" {
+  description = "Workspace-level variables to create. Map key = variable name."
+  type = map(object({
+    value       = string
+    sensitive   = optional(bool, false)
+    category    = optional(string, "terraform")
+    description = optional(string, "")
+  }))
+  default = {}
+
+  validation {
+    condition     = alltrue([for v in var.workspace_variables : contains(["terraform", "env"], v.category)])
+    error_message = "workspace_variables category must be \"terraform\" or \"env\"."
+  }
+}
