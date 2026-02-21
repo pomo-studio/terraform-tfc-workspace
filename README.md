@@ -17,7 +17,7 @@ Reusable Terraform module for creating VCS-driven Terraform Cloud workspaces wit
 ```hcl
 module "workspace_myapp" {
   source  = "pomo-studio/workspace/tfe"
-  version = "~> 1.0"
+  version = "~> 1.1"
 
   name         = "myapp"
   organization = "MyOrg"
@@ -31,7 +31,7 @@ module "workspace_myapp" {
 ```hcl
 module "workspace_myapp" {
   source  = "pomo-studio/workspace/tfe"
-  version = "~> 1.0"
+  version = "~> 1.1"
 
   name         = "myapp"
   organization = "MyOrg"
@@ -77,7 +77,7 @@ module "workspace_myapp" {
 
 ## Variables
 
-| Variable | Type | Default | Required | Description |
+| Name | Type | Default | Required | Description |
 |----------|------|---------|----------|-------------|
 | `name` | `string` | — | yes | Workspace name |
 | `organization` | `string` | — | yes | TFC organization |
@@ -123,6 +123,11 @@ Conditional:
 - **Core workspace stays inline** — the workspace that manages OIDC infrastructure itself can't use this module (chicken/egg). This module is for site workspaces.
 - **`workspace_variables` are workspace-scoped, not variable-set-scoped** — variables created via this input are attached directly to the workspace via `tfe_variable.workspace_id`, not to a shared variable set. Use this for workspace-specific values; use variable sets for values shared across multiple workspaces.
 - **Sensitive values are never output** — `workspace_variables` values are not exposed in module outputs regardless of the `sensitive` flag.
+
+## Examples
+
+- [`examples/basic`](examples/basic/) — minimal VCS-driven workspace, no OIDC
+- [`examples/complete`](examples/complete/) — OIDC dynamic credentials + workspace variables
 
 ## Requirements
 
