@@ -2,6 +2,14 @@
 
 Reusable Terraform module for creating VCS-driven Terraform Cloud workspaces with optional OIDC dynamic credentials.
 
+- VCS-driven workspace with GitHub App integration — push to main triggers a plan automatically
+- OIDC dynamic credentials wired in one variable (`role_arn`) — no manual TFC variable set setup
+- File trigger patterns auto-derived from `working_directory` — no boilerplate path config
+- Workspace-scoped variables for secrets that don't belong in a shared variable set
+- Pairs with `pomo-studio/oidc/aws` for a complete zero-static-credentials TFC setup
+
+**Registry**: `pomo-studio/workspace/tfe`
+
 ## Usage
 
 ### Basic workspace
@@ -98,6 +106,15 @@ module "workspace_myapp" {
 | `workspace_url` | Direct URL to workspace |
 | `variable_set_id` | OIDC variable set ID (null if no OIDC) |
 
+## What it creates
+
+Per module call:
+- 1 `tfe_workspace` — VCS-driven, file-trigger enabled
+
+Conditional:
+- `tfe_variable_set` + 2 `tfe_variable` resources for OIDC credentials (`role_arn` set)
+- N `tfe_variable` resources, one per entry in `workspace_variables`
+
 ## Design decisions
 
 - **`trigger_patterns` auto-derives from `working_directory`** — when null, computes `["<dir>/**/*.tf", "<dir>/**/*.tfvars"]`. Pass explicitly to override.
@@ -109,5 +126,11 @@ module "workspace_myapp" {
 
 ## Requirements
 
-- Terraform >= 1.5.0
-- hashicorp/tfe provider >= 0.50
+| Tool | Version |
+|------|---------|
+| Terraform | `>= 1.5.0` |
+| TFE provider | `>= 0.50` |
+
+## License
+
+MIT
