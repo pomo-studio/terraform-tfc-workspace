@@ -2,17 +2,6 @@
 # terraform-tfe-workspace — Reusable TFC workspace with optional OIDC
 # =============================================================================
 
-terraform {
-  required_version = ">= 1.5.0"
-
-  required_providers {
-    tfe = {
-      source  = "hashicorp/tfe"
-      version = ">= 0.50"
-    }
-  }
-}
-
 locals {
   # Auto-derive trigger patterns from working_directory when not explicitly set
   trigger_patterns = var.trigger_patterns != null ? var.trigger_patterns : (
