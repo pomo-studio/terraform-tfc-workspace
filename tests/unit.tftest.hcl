@@ -81,19 +81,19 @@ run "custom_workspace" {
   command = plan
 
   variables {
-    name         = "custom-workspace"
-    organization = "custom-org"
-    vcs_repo     = "custom-org/custom-repo"
-    description  = "Custom workspace with specific settings"
-    branch       = "develop"
-    working_directory = "terraform"
-    auto_apply   = true
-    force_delete = false
-    speculative_enabled = false
+    name                  = "custom-workspace"
+    organization          = "custom-org"
+    vcs_repo              = "custom-org/custom-repo"
+    description           = "Custom workspace with specific settings"
+    branch                = "develop"
+    working_directory     = "terraform"
+    auto_apply            = true
+    force_delete          = false
+    speculative_enabled   = false
     file_triggers_enabled = false
-    execution_mode = "local"
-    tag_names    = ["production", "backend"]
-    
+    execution_mode        = "local"
+    tag_names             = ["production", "backend"]
+
     workspace_variables = {
       TF_VAR_environment = {
         value       = "production"
@@ -143,7 +143,7 @@ run "workspace_with_oidc" {
     organization = "oidc-org"
     vcs_repo     = "oidc-org/oidc-repo"
     role_arn     = "arn:aws:iam::123456789012:role/tfe-oidc-role"
-    
+
     workspace_variables = {
       environment = {
         value = "staging"
@@ -182,9 +182,9 @@ run "trigger_patterns_auto_derivation" {
   command = plan
 
   variables {
-    name         = "trigger-workspace"
-    organization = "trigger-org"
-    vcs_repo     = "trigger-org/trigger-repo"
+    name              = "trigger-workspace"
+    organization      = "trigger-org"
+    vcs_repo          = "trigger-org/trigger-repo"
     working_directory = "infra/modules"
   }
 
@@ -201,9 +201,9 @@ run "explicit_trigger_patterns" {
   command = plan
 
   variables {
-    name         = "explicit-trigger-workspace"
-    organization = "trigger-org"
-    vcs_repo     = "trigger-org/trigger-repo"
+    name             = "explicit-trigger-workspace"
+    organization     = "trigger-org"
+    vcs_repo         = "trigger-org/trigger-repo"
     trigger_patterns = ["**/*.tf", "**/*.tfvars", "**/*.json"]
   }
 
@@ -223,11 +223,11 @@ run "invalid_variable_category" {
     name         = "invalid-cat-workspace"
     organization = "test-org"
     vcs_repo     = "test-org/test-repo"
-    
+
     workspace_variables = {
       test_var = {
-        value     = "test"
-        category  = "invalid"  # Should fail validation
+        value    = "test"
+        category = "invalid" # Should fail validation
       }
     }
   }

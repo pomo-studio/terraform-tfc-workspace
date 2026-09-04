@@ -1,5 +1,8 @@
 # terraform-tfe-workspace
 
+[![Terraform Validation](https://github.com/pomo-studio/terraform-tfe-workspace/actions/workflows/terraform.yml/badge.svg)](https://github.com/pomo-studio/terraform-tfe-workspace/actions/workflows/terraform.yml)
+[![Terraform Registry](https://img.shields.io/badge/terraform-registry-844FBA?logo=terraform)](https://registry.terraform.io/modules/pomo-studio/workspace/tfe)
+
 Reusable Terraform module for creating VCS-driven Terraform Cloud workspaces with optional OIDC dynamic credentials.
 
 - VCS-driven workspace with GitHub App integration — push to main triggers a plan automatically
