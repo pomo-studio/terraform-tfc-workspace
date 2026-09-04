@@ -13,8 +13,8 @@ output "workspace_ids" {
 output "oidc_variable_set_ids" {
   description = "IDs of OIDC variable sets (when role_arn is set)"
   value = {
-    production = module.production_workspace.oidc_variable_set_id
-    staging    = module.staging_workspace.oidc_variable_set_id
+    production = module.production_workspace.variable_set_id
+    staging    = module.staging_workspace.variable_set_id
   }
 }
 
