@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3] - 2026-09-05
+
+### Added
+- CHANGELOG.md entries for the v1.1.2 maintenance sprint
+
+## [1.1.2] - 2026-09-04
+
+### Added
+- CI and release GitHub Actions workflows
+- `.tflint.hcl` linting configuration
+- README badges
+- Committed `.terraform.lock.hcl` lock files
+
+### Changed
+- Constrained `hashicorp/tfe` provider to `>= 0.50, < 1.0` (was `>= 0.50`)
+
+### Fixed
+- Duplicated outputs in `examples/complete`
+- Wrong output reference `oidc_variable_set_id`
+
 ## [1.1.1] - 2026-02-22
 
 ### Changed
