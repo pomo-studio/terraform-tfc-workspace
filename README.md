@@ -80,18 +80,25 @@ module "workspace_myapp" {
 
 `workspace_variables` creates `tfe_variable` resources scoped directly to the workspace (not via a variable set). Sensitive values are marked hidden in the TFC UI and are never output.
 
+
+## Maintaining This Module
+
+The generated interface below is authoritative for requirements, providers, resources, inputs, and outputs. Regenerate with `terraform-docs` **v0.20.0**: `terraform-docs .`. CI fails on drift; keep explanatory prose outside the generated markers.
+
+See the [contribution guide](https://github.com/pomo-studio/.github/blob/main/CONTRIBUTING.md) and [security policy](https://github.com/pomo-studio/.github/blob/main/SECURITY.md). PR validation does not prove a live plan or deployment. Infrastructure plans and applies belong in Terraform Cloud; never provide cloud credentials to untrusted PR code.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0 |
 | <a name="requirement_tfe"></a> [tfe](#requirement\_tfe) | >= 0.50, < 1.0 |
 
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_tfe"></a> [tfe](#provider\_tfe) | 0.80.0 |
 
 ## Modules
@@ -101,7 +108,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [tfe_variable.oidc_auth](https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/variable) | resource |
 | [tfe_variable.oidc_role](https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/variable) | resource |
 | [tfe_variable.workspace](https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/variable) | resource |
@@ -113,7 +120,7 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_auto_apply"></a> [auto\_apply](#input\_auto\_apply) | Auto-apply successful plans | `bool` | `false` | no |
 | <a name="input_branch"></a> [branch](#input\_branch) | VCS branch to track | `string` | `"main"` | no |
 | <a name="input_description"></a> [description](#input\_description) | Workspace description | `string` | `""` | no |
@@ -135,7 +142,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_variable_set_id"></a> [variable\_set\_id](#output\_variable\_set\_id) | OIDC variable set ID (null when role\_arn is not set) |
 | <a name="output_workspace_id"></a> [workspace\_id](#output\_workspace\_id) | TFC workspace ID |
 | <a name="output_workspace_name"></a> [workspace\_name](#output\_workspace\_name) | TFC workspace name |
