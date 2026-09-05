@@ -80,36 +80,67 @@ module "workspace_myapp" {
 
 `workspace_variables` creates `tfe_variable` resources scoped directly to the workspace (not via a variable set). Sensitive values are marked hidden in the TFC UI and are never output.
 
-## Variables
+<!-- BEGIN_TF_DOCS -->
+## Requirements
 
-| Name | Type | Default | Required | Description |
-|----------|------|---------|----------|-------------|
-| `name` | `string` | — | yes | Workspace name |
-| `organization` | `string` | — | yes | TFC organization |
-| `vcs_repo` | `string` | — | yes | GitHub repo (e.g. `pomo-studio/pomo-dev`) |
-| `github_app_installation_id` | `string` | — | yes | GitHub App installation ID |
-| `description` | `string` | `""` | no | Workspace description |
-| `branch` | `string` | `"main"` | no | VCS branch |
-| `working_directory` | `string` | `"infra"` | no | Terraform working directory |
-| `terraform_version` | `string` | `">= 1.5.0"` | no | Version constraint |
-| `auto_apply` | `bool` | `false` | no | Auto-apply successful plans |
-| `force_delete` | `bool` | `true` | no | Allow deletion with resources |
-| `speculative_enabled` | `bool` | `true` | no | Speculative plans on PRs |
-| `file_triggers_enabled` | `bool` | `true` | no | Filter runs by path |
-| `trigger_patterns` | `list(string)` | `null` | no | File trigger patterns (auto-derived from working_directory when null) |
-| `execution_mode` | `string` | `"remote"` | no | Execution mode |
-| `tag_names` | `list(string)` | `[]` | no | Workspace tags |
-| `role_arn` | `string` | `null` | no | IAM role ARN — creates OIDC var set when set |
-| `workspace_variables` | `map(object)` | `{}` | no | Workspace-level variables. Each entry: `value`, `sensitive` (false), `category` ("terraform"\|"env"), `description` ("") |
+| Name | Version |
+| ---- | ------- |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0 |
+| <a name="requirement_tfe"></a> [tfe](#requirement\_tfe) | >= 0.50, < 1.0 |
+
+## Providers
+
+| Name | Version |
+| ---- | ------- |
+| <a name="provider_tfe"></a> [tfe](#provider\_tfe) | 0.80.0 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+| ---- | ---- |
+| [tfe_variable.oidc_auth](https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/variable) | resource |
+| [tfe_variable.oidc_role](https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/variable) | resource |
+| [tfe_variable.workspace](https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/variable) | resource |
+| [tfe_variable_set.oidc](https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/variable_set) | resource |
+| [tfe_workspace.this](https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/workspace) | resource |
+| [tfe_workspace_settings.this](https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/workspace_settings) | resource |
+| [tfe_workspace_variable_set.oidc](https://registry.terraform.io/providers/hashicorp/tfe/latest/docs/resources/workspace_variable_set) | resource |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+| ---- | ----------- | ---- | ------- | :------: |
+| <a name="input_auto_apply"></a> [auto\_apply](#input\_auto\_apply) | Auto-apply successful plans | `bool` | `false` | no |
+| <a name="input_branch"></a> [branch](#input\_branch) | VCS branch to track | `string` | `"main"` | no |
+| <a name="input_description"></a> [description](#input\_description) | Workspace description | `string` | `""` | no |
+| <a name="input_execution_mode"></a> [execution\_mode](#input\_execution\_mode) | Workspace execution mode | `string` | `"remote"` | no |
+| <a name="input_file_triggers_enabled"></a> [file\_triggers\_enabled](#input\_file\_triggers\_enabled) | Filter runs to trigger\_patterns paths only | `bool` | `true` | no |
+| <a name="input_force_delete"></a> [force\_delete](#input\_force\_delete) | Allow workspace deletion even with managed resources | `bool` | `true` | no |
+| <a name="input_github_app_installation_id"></a> [github\_app\_installation\_id](#input\_github\_app\_installation\_id) | GitHub App installation ID for VCS integration | `string` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | Workspace name | `string` | n/a | yes |
+| <a name="input_organization"></a> [organization](#input\_organization) | TFC organization name | `string` | n/a | yes |
+| <a name="input_role_arn"></a> [role\_arn](#input\_role\_arn) | IAM role ARN for OIDC dynamic credentials. When set, creates OIDC variable set. | `string` | `null` | no |
+| <a name="input_speculative_enabled"></a> [speculative\_enabled](#input\_speculative\_enabled) | Enable speculative plans on PRs | `bool` | `true` | no |
+| <a name="input_tag_names"></a> [tag\_names](#input\_tag\_names) | Workspace tags for organization | `list(string)` | `[]` | no |
+| <a name="input_terraform_version"></a> [terraform\_version](#input\_terraform\_version) | Terraform version constraint | `string` | `">= 1.5.0"` | no |
+| <a name="input_trigger_patterns"></a> [trigger\_patterns](#input\_trigger\_patterns) | File patterns that trigger runs. Auto-derived from working\_directory when null. | `list(string)` | `null` | no |
+| <a name="input_vcs_repo"></a> [vcs\_repo](#input\_vcs\_repo) | GitHub repository identifier (e.g. pomo-studio/pomo-dev) | `string` | n/a | yes |
+| <a name="input_working_directory"></a> [working\_directory](#input\_working\_directory) | Terraform working directory within the repo | `string` | `"infra"` | no |
+| <a name="input_workspace_variables"></a> [workspace\_variables](#input\_workspace\_variables) | Workspace-level variables to create. Map key = variable name. | <pre>map(object({<br/>    value       = string<br/>    sensitive   = optional(bool, false)<br/>    category    = optional(string, "terraform")<br/>    description = optional(string, "")<br/>  }))</pre> | `{}` | no |
 
 ## Outputs
 
-| Output | Description |
-|--------|-------------|
-| `workspace_id` | TFC workspace ID |
-| `workspace_name` | Workspace name |
-| `workspace_url` | Direct URL to workspace |
-| `variable_set_id` | OIDC variable set ID (null if no OIDC) |
+| Name | Description |
+| ---- | ----------- |
+| <a name="output_variable_set_id"></a> [variable\_set\_id](#output\_variable\_set\_id) | OIDC variable set ID (null when role\_arn is not set) |
+| <a name="output_workspace_id"></a> [workspace\_id](#output\_workspace\_id) | TFC workspace ID |
+| <a name="output_workspace_name"></a> [workspace\_name](#output\_workspace\_name) | TFC workspace name |
+| <a name="output_workspace_url"></a> [workspace\_url](#output\_workspace\_url) | Direct URL to the TFC workspace |
+<!-- END_TF_DOCS -->
 
 ## What it creates
 
@@ -133,13 +164,6 @@ Conditional:
 
 - [`examples/basic`](examples/basic/) — minimal VCS-driven workspace, no OIDC
 - [`examples/complete`](examples/complete/) — OIDC dynamic credentials + workspace variables
-
-## Requirements
-
-| Tool | Version |
-|------|---------|
-| Terraform | `>= 1.5.0` |
-| TFE provider | `>= 0.50` |
 
 ## License
 
